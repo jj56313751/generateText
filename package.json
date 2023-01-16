@@ -1,0 +1,104 @@
+{
+  "name": "generatetext",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "electron .",
+    "packager": "electron-packager ./dist/ --platform=win32 --arch=x64 --overwrite",
+    "electron": "wait-on tcp:3000 && cross-env IS_DEV=true electron .",
+    "electron:dev": "concurrently -k \"cross-env BROWSER=none npm run dev\" \"npm run electron\"",
+    "electron:build.win": "npm run build && electron-builder --win --dir",
+    "electron:build.linux": "npm run build && electron-builder --linux appImage",
+    "electron:build.test": "npm run build && electron-builder --dir",
+    "electron:build.exe": "npm run build && electron-builder --win",
+    "prepare": "husky install",
+    "eslint:comment": "使用 ESLint 检查并自动修复 src 目录下所有扩展名为 .js 和 .vue 的文件",
+    "eslint": "eslint --ext .js,.vue --ignore-path .gitignore --fix src",
+    "prettier:comment": "自动格式化当前目录下的所有文件",
+    "prettier": "prettier --write",
+    "commit:comment": "引导设置规范化的提交信息",
+    "commit": "git-cz"
+  },
+  "build": {
+    "appId": "com.my-website.my-app",
+    "productName": "MyApp",
+    "copyright": "Copyright © 2022 ${author}",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "dist_electron"
+    },
+    "electronDownload": {
+      "mirror": "https://npm.taobao.org/mirrors/electron/"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts}": [
+      "pnpm run eslint",
+      "pnpm run prettier"
+    ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
+  },
+  "main": "electron/electron.js",
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.0.6",
+    "element-plus": "^2.1.9",
+    "sass": "^1.56.0",
+    "vue": "^3.2.41",
+    "vuedraggable": "^4.1.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^16.2.3",
+    "@commitlint/config-conventional": "^16.2.1",
+    "@iconify-json/ep": "^1.1.7",
+    "@types/node": "^17.0.24",
+    "@typescript-eslint/eslint-plugin": "^5.19.0",
+    "@typescript-eslint/parser": "^5.19.0",
+    "@vitejs/plugin-vue": "^3.2.0",
+    "autoprefixer": "^10.4.4",
+    "commitizen": "^4.2.4",
+    "commitlint-config-cz": "^0.13.3",
+    "concurrently": "^7.6.0",
+    "cross-env": "^7.0.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "cz-customizable": "^6.3.0",
+    "electron": "^21.3.1",
+    "electron-builder": "^23.6.0",
+    "electron-packager": "^17.1.1",
+    "eslint": "^8.13.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.6.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.3.8",
+    "postcss": "^8.4.12",
+    "prettier": "^2.6.2",
+    "sass": "^1.51.0",
+    "tailwindcss": "^3.0.24",
+    "typescript": "^4.5.4",
+    "unplugin-auto-import": "^0.7.2",
+    "unplugin-element-plus": "^0.4.1",
+    "unplugin-icons": "^0.14.13",
+    "unplugin-vue-components": "^0.19.9",
+    "vite": "^3.2.3",
+    "vue-tsc": "^0.29.8",
+    "wait-on": "^6.0.1"
+  }
+}
