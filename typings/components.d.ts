@@ -14,15 +14,11 @@ declare module '@vue/runtime-core' {
     ElIcon: typeof import('element-plus/es')['ElIcon']
     ElInput: typeof import('element-plus/es')['ElInput']
     ElRow: typeof import('element-plus/es')['ElRow']
-    ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
     IEpArrowDown: typeof import('~icons/ep/arrow-down')['default']
     IEpMinus: typeof import('~icons/ep/minus')['default']
-    IEpMore: typeof import('~icons/ep/more')['default']
     IEpMoreFilled: typeof import('~icons/ep/more-filled')['default']
     IEpPlus: typeof import('~icons/ep/plus')['default']
-    IEpRank: typeof import('~icons/ep/rank')['default']
-    IEpTools: typeof import('~icons/ep/tools')['default']
     IEpWarningFilled: typeof import('~icons/ep/warning-filled')['default']
   }
 }

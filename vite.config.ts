@@ -7,6 +7,7 @@ import ElementPlus from 'unplugin-element-plus/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
 import * as path from 'path'
+import { port } from './config'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }: ConfigEnv) => {
@@ -25,6 +26,9 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       alias: {
         '@': path.resolve(__dirname, 'src'),
       },
+    },
+    optimizeDeps: {
+      exclude: ['electron'], // 告诉 Vite 排除预构建 electron，不然会出现 __diranme is not defined
     },
     css: {
       preprocessorOptions: {
@@ -82,7 +86,7 @@ export default defineConfig(({ mode }: ConfigEnv) => {
       }),
     ],
     server: {
-      port: 2218, //启动端口
+      port: port, //启动端口
       host: '0.0.0.0', // windows server Network 添加此项
       hmr: true,
       // 设置开发环境代理

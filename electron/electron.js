@@ -1,6 +1,7 @@
 // electron/electron.js
 const path = require('path')
 const { app, BrowserWindow } = require('electron')
+const { port } = require('../config')
 
 const isDev = process.env.IS_DEV === 'true' ? true : false
 
@@ -13,13 +14,19 @@ function createWindow() {
       //preload: path.join(__dirname, 'preload.js'),
       nodeIntegration: true,
     },
+    icon: path.join(
+      __dirname,
+      isDev
+        ? '../build/icons/icon.ico'
+        : `file://${path.join(__dirname, '../dist/icon.ico')}`,
+    ),
   })
 
   // and load the index.html of the app.
   // win.loadFile("index.html");
   mainWindow.loadURL(
     isDev
-      ? 'http://localhost:3000'
+      ? `http://localhost:${port}`
       : `file://${path.join(__dirname, '../dist/index.html')}`,
   )
   // Open the DevTools.
