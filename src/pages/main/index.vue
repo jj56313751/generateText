@@ -248,15 +248,20 @@
 
     <div class="bottom-wrap">
       <el-button type="primary" @click="handleGenerate">生成</el-button>
+      <el-button type="success" @click="handleExportExcel">导出excel</el-button>
     </div>
 
     <div class="result-wrap">
-      <p v-for="item in resultData" :key="item">{{ item }}</p>
+      <p v-for="(item, index) in resultData" :key="index">
+        {{ item.join(' ') }}
+      </p>
     </div>
   </div>
 </template>
 <script setup lang="ts">
 import draggable from 'vuedraggable'
+// import { export_json_to_excel } from '@/excel/Export2Excel.js'
+import { exportExcel } from '@/excel/exportExcel'
 
 interface ListItem {
   id: string
@@ -264,7 +269,6 @@ interface ListItem {
   color?: string // 标记颜色
   stop: boolean // 是否终断流程
 }
-enum TYPE {}
 interface FormItem {
   id: string
   type: number
@@ -308,9 +312,9 @@ const handleAddItem = (command: number) => {
 }
 
 // 新增单项
-const handleAddList = (index: number, ListIndex: number) => {
+const handleAddList = (index: number, listIndex: number) => {
   const { list, id } = formData[index]
-  list.splice(ListIndex + 1, 0, {
+  list.splice(listIndex + 1, 0, {
     id: id + '-' + new Date().valueOf(),
     value: '',
     color: '',
@@ -318,9 +322,9 @@ const handleAddList = (index: number, ListIndex: number) => {
   })
 }
 // 删除单项
-const handleDelList = (index: number, ListIndex: number) => {
+const handleDelList = (index: number, listIndex: number) => {
   const { list } = formData[index]
-  list.length > 1 && list.splice(ListIndex, 1)
+  list.length > 1 && list.splice(listIndex, 1)
 }
 
 // 标记颜色
@@ -365,10 +369,12 @@ const handleToggleStop = (index: number, listIndex: number) => {
 }
 
 // 结果数组
-const resultData = ref<string[]>([])
+const resultData = ref<string[][]>([])
+// 表头
+const titles = computed(() => formData.map((item) => item.title || ''))
 // 生成
 const handleGenerate = () => {
-  const result: string[] = []
+  const result: string[][] = []
   const n = formData.length
   if (!n) return
   const queue: Array<ListItem[]> = [[]]
@@ -385,11 +391,10 @@ const handleGenerate = () => {
         // 中断流程
         if (list[i].stop && !isRepeatColor(arrResult)) {
           result.push(
-            arrResult
-              .map((item) => {
-                return item.value === ORDER_DUMMY ? String(count) : item.value
-              })
-              .join(' '),
+            arrResult.map((item) => {
+              return item.value === ORDER_DUMMY ? String(count) : item.value
+            }),
+            // .join(' '),
           )
           // console.log('[count]-384', count)
           count++
@@ -398,11 +403,10 @@ const handleGenerate = () => {
           // 标记颜色重复不添加
           if (!isRepeatColor(arrResult)) {
             result.push(
-              arrResult
-                .map((item) => {
-                  return item.value === ORDER_DUMMY ? String(count) : item.value
-                })
-                .join(' '),
+              arrResult.map((item) => {
+                return item.value === ORDER_DUMMY ? String(count) : item.value
+              }),
+              // .join(' '),
             )
             // console.log('[count]-397', count)
             count++
@@ -428,6 +432,20 @@ const isRepeatColor = (data: ListItem[]): boolean => {
     hash[data[i].color as string] = true
   }
   return false
+}
+
+// 导出
+const handleExportExcel = () => {
+  exportExcel(
+    [
+      {
+        titles: titles.value,
+        data: resultData.value,
+        name: '用例详情',
+      },
+    ],
+    '测试用例导出',
+  ) //导出的excel的名称
 }
 
 // 是否显示使用说明

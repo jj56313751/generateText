@@ -13,6 +13,7 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
+    "allowJs": true,
     "typeRoots": [
       "./node_modules/@types/"
     ],
@@ -30,7 +31,8 @@
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "typings/**/*.ts",
-    "typings/**/*.d.ts"
+    "typings/**/*.d.ts",
+    "src/excel/**/*.d.ts"
   ],
   "exclude": ["node_modules"]
 }
