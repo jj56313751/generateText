@@ -1,7 +1,5 @@
-# Vue 3 + Vite
-
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+# 自动生成测试用例小工具
+- 生成：全排列输出每个条目下内容
+- 互斥：可为每个标签标记颜色，如果有颜色相同的标记，则不进行输出
+- 终止流程：点亮终断流程按钮将不输出排列在后面的内容
+- 导出最终结果为excel
